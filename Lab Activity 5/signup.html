@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<!-- Coded by Rafael Paderna and Hamdi Tuan -->
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title> University of the Philippines Mindanao </title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <!-- Script for radio box widget -->
+    <script>
+      $( function() {
+        $( "input" ).checkboxradio();
+      } );
+    </script>
+    <!-- Script for datepicker widget -->
+    <script>
+      $( function() {
+        $( "#datepicker" ).datepicker();
+      } );
+    </script>
+    <!-- Script for autocomplete widget -->
+    <script>
+      $( function() {
+        var provinces = [
+          "Agusan del Norte",
+          "Agusan del Sur",
+          "Basilan",
+          "Bukidnon",
+          "Camiguin",
+          "Compostela Valley",
+          "Cotabato (North Cotabato)",
+          "Davao del Norte",
+          "Davao del Sur",
+          "Davao Occidental",
+          "Davao Oriental",
+          "Dinagat Islands",
+          "Lanao del Norte",
+          "Lanao del Sur",
+          "Maguindanao",
+          "Misamis Occidental",
+          "Misamis Oriental",
+          "Sarangani",
+          "South Cotabato",
+          "Sultan Kudarat",
+          "Sulu",
+          "Surigao del Norte",
+          "Surigao del Sur",
+          "Tawi-Tawi",
+          "Zamboanga del Norte",
+          "Zamboanga Sibugay"
+        ];
+        $( "#province" ).autocomplete({
+          source: provinces
+        });
+      } );
+    </script>
+    <!-- Spinner widget -->
+    <script>
+        $(function() {
+           var spinner = $( "#spinner" ).spinner();
+        });
+    </script>
+    <!-- Save form to text file -->
+    <script>
+          // Compile all data inputted
+          function buildData() {
+            var txtData = "Name: "+$(" #fName ").val()+" "+$(" #mName ").val()+" "+$(" #lName ").val()+
+                "\r\nGender: "+($(" #radio-1 ").is(" :checked ")?"Male":"Female")+
+                "\r\nBirthday: "+$(" #datepicker ").val()+
+                "\r\nProvince: "+$(" #province ").val()+
+                "\r\nYear Level: "+$(" #spinner ").val();
+
+            return txtData;
+          }
+          // Function to save all data to text file
+          function saveFile() {
+            var data = buildData();
+            const textToBLOB = new Blob([data], { type: 'text/plain' });
+            const sFileName = 'formData.txt';	   // The file to save the data. 
+
+            let newLink = document.createElement("a");
+            newLink.download = sFileName;
+
+            if (window.webkitURL != null) {
+            newLink.href = window.webkitURL.createObjectURL(textToBLOB);
+            }
+            else {
+              newLink.href = window.URL.createObjectURL(textToBLOB);
+              newLink.style.display = "none";
+              document.body.appendChild(newLink);
+            }
+            newLink.click(); 
+          }
+    </script>
+</head>
+
+<body>
+    <!-- Main Container -->
+    <div id="main-container">
+        <!-- Navigation Bar -->
+        <nav class="nav-horizontal">
+            <div class="mask">
+            <img src="UPMin.png" alt="University of the Philippines Mindanao Logo">
+              <ul class="list">
+                <li><a href="index.html" target="_self">Home</a></li>
+                <li><a href="units.html">Academic Units</a></li>
+                <li><a href="programs.html">Academic Programs</a></li>
+                <li><a href="signup.html">Sign-up</a></li>
+    
+              </ul>
+            </div>
+        </nav>
+        <!-- Sign-up section -->
+        <div class="container">
+            <h1 style="color: #BBF9A4">Sign-up Form</h1>
+            <h2> Full Name </h2>
+              <div class="input-box">
+                <input type="text" id="fName" placeholder="Enter first name" required>
+              </div>
+              <div class="input-box">
+                <input type="text" id="lName" placeholder="Enter last name" required>
+              </div>
+              <div class="input-box">
+                <input type="text" id="mName" placeholder="Enter middle name" required>
+              </div>
+            <h2> Gender </h2>
+              <div id="smolbox">
+                <label for="radio-1">Male</label>
+                <input type="radio" name="gender" id="radio-1">
+                <label for="radio-2">Female</label>
+                <input type="radio" name="gender" id="radio-2">
+              </div>
+            <h2> Date of Birth </h2>
+              <div class="input-box">
+                <input type="text" id="datepicker" placeholder="e.g. 12/10/2003" required>
+              </div>
+            <h2> Province </h2>
+              <div class="input-box">
+                <input type="text" id="province" placeholder="Enter province" required>
+              </div>
+            <h2> Year Level </h2>
+              <div class="input-box">
+                <input type="number" id="spinner" placeholder="Select year level" required>
+              </div>
+
+            <div class="button">
+              <input type="submit" onclick="saveFile()">
+            </div> 
+              
+        </div>
+    </div>
+
+</body>
+</html>
